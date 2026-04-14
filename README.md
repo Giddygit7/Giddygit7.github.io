@@ -11,6 +11,7 @@ This repository contains a collection of applied AI/ML projects developed throug
 * **Advanced AI (In Progress):** NLP, RAG systems, and deployed APIs.
 
 **Contact Me**
+
 **LinkedIn:** [Ibrahim Almomani](https://www.linkedin.com/in/ibrahim-almomani-528920212/)
 
 **GitHub:**   [View My Live Portfolio Site](Giddygit7.github.io)
