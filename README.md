@@ -12,5 +12,7 @@ This repository contains a collection of applied AI/ML projects developed throug
 
 **Contact Me**
 **LinkedIn:** [Ibrahim Almomani](https://www.linkedin.com/in/ibrahim-almomani-528920212/)
+
 **GitHub:**   [View My Live Portfolio Site](Giddygit7.github.io)
+
 **Email:**    i.momani77@gmail.com
