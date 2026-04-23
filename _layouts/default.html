@@ -1,38 +1,423 @@
 <!DOCTYPE html>
-<html lang="{{ site.lang | default: "en-US" }}">
-  <head>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ibrahim Almomani | Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { transition: all 0.3s ease; }
+        
+        body { background-color: #0f172a; color: #f8fafc; }
+        
+        .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+        
+        .gradient-text { background: linear-gradient(90deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        /* Header separator */
+        header::after {
+            content: '';
+            display: block;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.5), transparent);
+            margin-top: 2rem;
+            animation: gradientShift 3s ease-in-out infinite;
+        }
+        
+        /* Gradient animation */
+        @keyframes gradientShift {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+        
+        /* Spark effect on hover */
+        @keyframes spark {
+            0% { opacity: 1; transform: translate(0, 0) scale(1); }
+            100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0); }
+        }
+        
+        .spark {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #38bdf8;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: spark 0.6s ease-out forwards;
+        }
+        
+        /* Social icon animations */
+        .social-icon {
+            display: inline-block;
+            animation: floatIcon 3s ease-in-out infinite;
+        }
+        
+        .social-icon:nth-child(1) { animation-delay: 0s; }
+        .social-icon:nth-child(2) { animation-delay: 0.2s; }
+        .social-icon:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+        
+        .social-icon:hover {
+            color: #38bdf8;
+            transform: rotate(12deg) scale(1.2);
+            filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.4));
+        }
+        
+        /* Project card enhancements */
+        .project-card {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(10px);
+        }
+        
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.2), transparent);
+            transition: left 0.6s ease;
+            pointer-events: none;
+        }
+        
+        .project-card:hover::before {
+            left: 100%;
+        }
+        
+        .project-card:hover {
+            border-color: rgba(56, 189, 248, 0.5);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.15), inset 0 0 20px rgba(56, 189, 248, 0.05);
+            background: rgba(30, 41, 59, 0.8);
+        }
+        
+        /* Gradient border animation */
+        .gradient-border {
+            background: linear-gradient(90deg, rgba(56, 189, 248, 0.3), rgba(129, 140, 248, 0.3)) border-box;
+            border: 1px solid transparent;
+        }
+        
+        /* Hidden info reveal on hover */
+        .hidden-info {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+        }
+        
+        .project-card:hover .hidden-info {
+            max-height: 100px;
+            opacity: 1;
+        }
+        
+        /* Toolbox items hover */
+        .tool-item {
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .tool-item:hover {
+            border-color: rgba(56, 189, 248, 0.5);
+            background: rgba(30, 41, 59, 0.9);
+            color: #38bdf8;
+        }
+        
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, rgba(56, 189, 248, 0.3), transparent);
+            transform: translateX(-50%);
+        }
+        
+        .timeline-item {
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: slideInTimeline 0.6s ease-out forwards;
+        }
+        
+        @keyframes slideInTimeline {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .timeline-item:nth-child(1) { animation-delay: 0.1s; }
+        .timeline-item:nth-child(2) { animation-delay: 0.2s; }
+        .timeline-item:nth-child(3) { animation-delay: 0.3s; }
+        .timeline-item:nth-child(4) { animation-delay: 0.4s; }
+        .timeline-item:nth-child(5) { animation-delay: 0.5s; }
+        
+        
+        /* Featured project section */
+        .featured-project {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.1), rgba(129, 140, 248, 0.1));
+            border: 2px solid rgba(56, 189, 248, 0.3);
+            border-radius: 2rem;
+        }
+        
+        .featured-project:hover {
+            border-color: rgba(56, 189, 248, 0.6);
+            box-shadow: 0 0 30px rgba(56, 189, 248, 0.2);
+        }
 
-{% seo %}
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="preload" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap" as="style" type="text/css" crossorigin>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#157878">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
-    {% include head-custom.html %}
-  </head>
-  <body>
-    <a id="skip-to-content" href="#content">Skip to the content.</a>
+        /* Specific transition for interactive elements */
+        .project-card, .social-icon, .featured-project { transition: all 0.3s ease; }
+    </style>
+</head>
+<body class="font-sans antialiased">
+    {{ content }}
 
-    <header class="page-header" role="banner">
-      <h1 class="project-name">{{ page.title | default: site.title | default: site.github.repository_name }}</h1>
-      <h2 class="project-tagline">{{ page.description | default: site.description | default: site.github.project_tagline }}</h2>
-      {% if site.github.is_project_page %}
-        <a href="{{ site.github.repository_url }}" class="btn">View on GitHub</a>
-      {% endif %}
-      {% if site.show_downloads %}
-        <a href="{{ site.github.zip_url }}" class="btn">Download .zip</a>
-        <a href="{{ site.github.tar_url }}" class="btn">Download .tar.gz</a>
-      {% endif %}
+    <header class="py-20 px-6 max-w-5xl mx-auto text-center">
+        <h1 class="text-5xl md:text-7xl font-bold mb-4">Ibrahim <span class="gradient-text">Almomani</span></h1>
+        <p class="text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
+            Energy Systems Engineer pivoting into <span class="text-sky-400 font-semibold">AI & Machine Learning Engineering</span>. 
+            Building scalable data pipelines and intelligent automation.
+        </p>
+        <div class="mt-8 flex justify-center gap-6">
+            <a href="https://github.com/Giddygit7" class="social-icon hover:text-sky-400 transition-colors text-2xl"><i class="fab fa-github"></i></a>
+            <a href="https://linkedin.com/in/ibrahim-almomani-528920212/" class="social-icon hover:text-sky-400 transition-colors text-2xl"><i class="fab fa-linkedin"></i></a>
+            <a href="mailto:i.momani77@gmail.com" class="social-icon hover:text-sky-400 transition-colors text-2xl"><i class="fas fa-envelope"></i></a>
+        </div>
     </header>
 
-    <main id="content" class="main-content" role="main">
-      {{ content }}
+    <main class="max-w-5xl mx-auto px-6 space-y-20 pb-20">
+        
+        <section class="glass p-8 md:p-12 rounded-3xl md:grid md:grid-cols-2 md:gap-8">
+            <div>
+                <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+                    <i class="fas fa-user-astronaut text-sky-400"></i> About Me
+                </h2>
+                <p class="text-slate-300 leading-relaxed">
+                    An Energy Systems Engineer with a specialized background in thermal power plants and industrial sustainability. 
+                    My professional experience has centered on managing complex, multi-variable systems—ranging from the high-precision 
+                    operations of industrial gas turbines to rigorous data-validation. Currently, I'm pivoting into AI and ML Engineering 
+                    through AI.SPIRE to drive operational efficiency in various systems.
+                </p>
+            </div>
+            <div class="mt-8 md:mt-0 hidden md:flex flex-col justify-center">
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3 text-sky-400">
+                        <i class="fas fa-brain text-2xl"></i>
+                        <span class="font-semibold">AI & ML Focus</span>
+                    </div>
+                    <div class="flex items-center gap-3 text-sky-400">
+                        <i class="fas fa-chart-line text-2xl"></i>
+                        <span class="font-semibold">Data Engineering</span>
+                    </div>
+                    <div class="flex items-center gap-3 text-sky-400">
+                        <i class="fas fa-cogs text-2xl"></i>
+                        <span class="font-semibold">System Optimization</span>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-      <footer class="site-footer" style="font-size: 0.8em; color: #999; font-weight: normal;">
-        <span>Learn more about the <a href="https://levelupeconomy.com" style="color: #999;">AI.SPIRE</a> curriculum by <a href="https://levelupeconomy.com" style="color: #999;">LevelUp Economy</a>.</span>
-      </footer>
+        <section>
+            <h2 class="text-3xl font-bold mb-10 text-center">Technical <span class="text-sky-400">Milestones</span></h2>
+            
+            <!-- Featured Project -->
+            <div class="mb-12">
+                <a href="https://github.com/LevelUp-Applied-AI/m3-l3-sql-analytics-Giddygit7-1/pull/1" class="block">
+                    <div class="featured-project p-8 rounded-2xl hover:scale-[1.01] transition-transform">
+                        <div class="flex items-start gap-4">
+                            <div class="text-4xl text-sky-400 flex-shrink-0">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="flex-1">
+                                <span class="text-xs font-mono text-sky-400 uppercase tracking-widest">Featured • Relational Databases</span>
+                                <h3 class="text-2xl font-bold mt-3 mb-2">SQL Analytics for Levant Tech</h3>
+                                <p class="text-slate-300 leading-relaxed">Developed a comprehensive PostgreSQL analytical suite featuring advanced queries and relational schema design. This project demonstrates deep understanding of database optimization and complex query patterns.</p>
+                                <div class="mt-6 flex flex-wrap gap-2">
+                                    <span class="bg-sky-500/20 px-4 py-2 rounded-full text-sm text-sky-300 border border-sky-500/30">SQL</span>
+                                    <span class="bg-sky-500/20 px-4 py-2 rounded-full text-sm text-sky-300 border border-sky-500/30">PostgreSQL</span>
+                                    <span class="bg-sky-500/20 px-4 py-2 rounded-full text-sm text-sky-300 border border-sky-500/30">Database Design</span>
+                                    <span class="bg-sky-500/20 px-4 py-2 rounded-full text-sm text-sky-300 border border-sky-500/30">Advanced Queries</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Projects Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <a href="https://github.com/LevelUp-Applied-AI/m1-d1-git-workflows-Giddygit7/pull/2" class="block">
+                    <div class="project-card p-6 rounded-2xl hover:scale-[1.02] transition-transform h-full">
+                        <div class="flex items-start justify-between mb-2">
+                            <span class="text-xs font-mono text-sky-400 uppercase tracking-widest">Foundations</span>
+                            <i class="fas fa-code-branch text-xl text-sky-400"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mt-2">Environment & Git Workflows</h3>
+                        <p class="text-slate-400 text-sm mt-2">Set up a reproducible Python development environment and practiced branching, merging, and pull request workflows.</p>
+                        <div class="hidden-info text-sm text-slate-500 mt-3 border-t border-slate-700 pt-3">
+                            Learn more about modern Git workflows and team collaboration practices.
+                        </div>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span class="bg-slate-800 px-3 py-1 rounded-full text-xs text-slate-300">Git</span>
+                            <span class="bg-slate-800 px-3 py-1 rounded-full text-xs text-slate-300">GitHub</span>
+                            <span class="bg-slate-800 px-3 py-1 rounded-full text-xs text-slate-300">VS Code</span>
+                            <span class="bg-slate-800 px-3 py-1 rounded-full text-xs text-slate-300">v-envs</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="https://github.com/LevelUp-Applied-AI/m1-l1-git-workflows-Giddygit7/pull/1" class="block">
+                    <div class="project-card p-6 rounded-2xl hover:scale-[1.02] transition-transform h-full">
+                        <div class="flex items-start justify-between mb-2">
+                            <span class="text-xs font-mono text-sky-400 uppercase tracking-widest">Foundations</span>
+                            <i class="fas fa-users text-xl text-sky-400"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mt-2">Team Collaboration Pipeline</h3>
+                        <p class="text-slate-400 text-sm mt-2">Managed feature branches, code reviews, and merge conflicts in a shared environment.</p>
+                        <div class="hidden-info text-sm text-slate-500 mt-3 border-t border-slate-700 pt-3">
+                            Expertise in handling merge conflicts and code review best practices.
+                        </div>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span class="bg-slate-800 px-3 py-1 rounded-full text-xs text-slate-300">Git</span>
+                            <span class="bg-slate-800 px-3 py-1 rounded-full text-xs text-slate-300">Code Review</span>
+                            <span class="bg-slate-800 px-3 py-1 rounded-full text-xs text-slate-300">Conflict Resolution</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="https://github.com/LevelUp-Applied-AI/m2-l2-data-pipeline-Giddygit7/pull/1" class="block">
+                    <div class="project-card p-6 rounded-2xl hover:scale-[1.02] transition-transform h-full">
+                        <div class="flex items-start justify-between mb-2">
+                            <span class="text-xs font-mono text-sky-400 uppercase tracking-widest">Data Engineering</span>
+                            <i class="fas fa-database text-xl text-sky-400"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mt-2">Data Pipeline</h3>
+                        <p class="text-slate-400 text-sm mt-2">Built an end-to-end data loading and preprocessing pipeline using pandas, with validation checks.</p>
+                        <div class="hidden-info text-sm text-slate-500 mt-3 border-t border-slate-700 pt-3">
+                            Advanced data cleaning and validation techniques for production systems.
+                        </div>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span class="bg-slate-800 px-3 py-1 rounded-full text-xs text-slate-300">Python</span>
+                            <span class="bg-slate-800 px-3 py-1 rounded-full text-xs text-slate-300">Pandas</span>
+                            <span class="bg-slate-800 px-3 py-1 rounded-full text-xs text-slate-300">Cleaning</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="https://github.com/LevelUp-Applied-AI/m2-i2-pytorch-Giddygit7/pull/1" class="block">
+                    <div class="project-card p-6 rounded-2xl hover:scale-[1.02] transition-transform h-full">
+                        <div class="flex items-start justify-between mb-2">
+                            <span class="text-xs font-mono text-sky-400 uppercase tracking-widest">Deep Learning</span>
+                            <i class="fas fa-brain text-xl text-sky-400"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mt-2">PyTorch Model</h3>
+                        <p class="text-slate-400 text-sm mt-2">Implemented neural network loops including backpropagation and tensor operations.</p>
+                        <div class="hidden-info text-sm text-slate-500 mt-3 border-t border-slate-700 pt-3">
+                            Deep understanding of neural network architecture and optimization.
+                        </div>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span class="bg-slate-800 px-3 py-1 rounded-full text-xs text-slate-300">PyTorch</span>
+                            <span class="bg-slate-800 px-3 py-1 rounded-full text-xs text-slate-300">Tensors</span>
+                            <span class="bg-slate-800 px-3 py-1 rounded-full text-xs text-slate-300">Evaluation</span>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+        </section>
+
+        <section class="text-center">
+            <h2 class="text-2xl font-bold mb-6 text-slate-500 decoration-sky-500">The Technical Toolbox</h2>
+            <div class="flex flex-wrap justify-center gap-4">
+                <div class="tool-item px-6 py-3 rounded-xl">Scikit-Learn</div>
+                <div class="tool-item px-6 py-3 rounded-xl">FastAPI</div>
+                <div class="tool-item px-6 py-3 rounded-xl">Docker</div>
+                <div class="tool-item px-6 py-3 rounded-xl">spaCy</div>
+                <div class="tool-item px-6 py-3 rounded-xl">Hugging Face</div>
+                <div class="tool-item px-6 py-3 rounded-xl">Pandas</div>
+            </div>
+        </section>
+        {{ content }}
     </main>
-  </body>
+
+    <footer class="py-10 text-center text-slate-500 border-t border-slate-800">
+        <p>© 2026 Ibrahim Almomani | Driven by Energy & AI</p>
+    </footer>
+
+    <script>
+        // Spark Effect on Project Cards
+        document.querySelectorAll('.project-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                if (Math.random() > 0.7) {
+                    createSpark(card, x, y);
+                }
+            });
+        });
+        
+        function createSpark(container, x, y) {
+            const spark = document.createElement('div');
+            spark.className = 'spark';
+            spark.style.left = x + 'px';
+            spark.style.top = y + 'px';
+            
+            const angle = Math.random() * Math.PI * 2;
+            const distance = 30 + Math.random() * 30;
+            const tx = Math.cos(angle) * distance;
+            const ty = Math.sin(angle) * distance;
+            
+            spark.style.setProperty('--tx', tx + 'px');
+            spark.style.setProperty('--ty', ty + 'px');
+            
+            container.style.position = 'relative';
+            container.appendChild(spark);
+            setTimeout(() => spark.remove(), 600);
+        }
+        
+        // Timeline animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'slideInTimeline 0.6s ease-out forwards';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.timeline-item').forEach(item => {
+            observer.observe(item);
+        });
+    </script>
+
+</body>
 </html>
